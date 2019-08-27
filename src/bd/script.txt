@@ -1,0 +1,44 @@
+CREATE DATABASE db_gol;
+
+CREATE TABLE destinos (
+id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+origem VARCHAR(30) NOT NULL,
+destino VARCHAR(30) NOT NULL,
+status VARCHAR(30) NOT NULL
+);
+
+INSERT INTO destinos (origem, destino, status) VALUES ('rio de janeiro - todos', 'florianopolis', 'Ativo');
+INSERT INTO destinos (origem, destino, status) VALUES ('florianopolis', 'rio de janeiro - todos', 'Ativo');
+INSERT INTO destinos (origem, destino, status) VALUES ('rio de janeiro - todos', 'navegantes', 'Inativo');
+INSERT INTO destinos (origem, destino, status) VALUES ('navegantes', 'rio de janeiro - todos', 'Inativo');
+INSERT INTO destinos (origem, destino, status) VALUES ('rio de janeiro - todos', 'joinvile', 'Inativo');
+INSERT INTO destinos (origem, destino, status) VALUES ('joinvile', 'rio de janeiro - todos', 'Inativo');
+INSERT INTO destinos (origem, destino, status) VALUES ('rio de janeiro - todos', 'curitiba', 'Inativo');
+INSERT INTO destinos (origem, destino, status) VALUES ('curitiba', 'rio de janeiro - todos', 'Inativo');
+
+CREATE TABLE parametros (
+id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+tipo_parametro VARCHAR(500) NOT NULL,
+valor VARCHAR(500) NOT NULL
+);
+
+INSERT INTO parametros (tipo_parametro, valor) values ('site', 'https://voegol.com.br/pt');
+INSERT INTO parametros (tipo_parametro, valor) VALUES ('valor_voo', 350);
+INSERT INTO parametros (tipo_parametro, valor) VALUES ('bot_token_telegram', '760554632:AAG35rNhwkxxVxF57AMdOpjqexJV75abejg');
+
+CREATE TABLE voos (
+id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+origem VARCHAR(30) NOT NULL,
+destino VARCHAR(30) NOT NULL,
+dia_semana VARCHAR(30) NOT NULL,
+data VARCHAR(30) NOT NULL,
+valor FLOAT NOT NULL,
+data_consulta VARCHAR(30) NOT NULL
+);
+
+CREATE TABLE log (
+id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+mensagem_erro VARCHAR(500),
+imagem LONGTEXT,
+data_consulta VARCHAR(30)
+);

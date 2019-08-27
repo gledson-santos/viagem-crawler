@@ -1,0 +1,52 @@
+# -*- Coding: UTF-8 -*-
+#coding: utf-8
+
+import telebot
+from src.bd.script import Script
+from src.bd.parametros import Parametros
+
+sql = Script()
+parametros = Parametros()
+parametro = parametros.retorna_parametros()
+bot = telebot.TeleBot(parametro['bot_token_telegram'])
+
+
+def consulta_menor_valor_voo(message):
+    try:
+        resultado = sql.consulta_menor_valor_passagem()
+        valor = round(resultado[0]['valor'], 2)
+        return 'O menor valor encontrado é de R$ {}'.format(valor)
+    except Exception as e:
+        return 'Não há valor válido para a consulta solicitada'
+
+@bot.message_handler(commands=['menorvalor'], func=consulta_menor_valor_voo)
+def menor_valor_passagens(message):
+    bot.reply_to(message, consulta_menor_valor_voo(message))
+
+
+def altera_valor_pesquisa(message):
+    try:
+        valor = int(message.text.replace('/altera', ''))
+        sql.atualiza_valor_voos(valor)
+        return 'Valor da busca pelo preço das passagens foi alterado para R$ {}'.format(valor)
+
+    except Exception as e:
+        return 'Informe um valor válido. \nEx.: /altera 250 \nPara alterar o valor do monitoramento das passagens para R$250'
+
+
+@bot.message_handler(commands=['altera'], func=altera_valor_pesquisa)
+def echo_all(message):
+    bot.reply_to(message, altera_valor_pesquisa(message))
+
+def comandos(message):
+    msg = 'Você pode utilizar os seguintes comandos para configurar suas buscas: \n\n'
+    msg += '/menorvalor - Esse comando retorna o valor mais baixo da passagem que foi encontrado nas buscas\n\n'
+    msg += '/altera "valor" - Esse comando altera o valor da passagem que você deseja ser notificado. \n Ex.: Utilizando /altera 200. Quando encontrarmos alguma passagem abaixo de R$ 200,00, iremos notificá-lo por mensagem\n\n'
+    return msg
+
+@bot.message_handler(commands=['help'], func=comandos)
+def echo_all(message):
+    bot.reply_to(message, comandos(message))
+
+
+bot.polling()
