@@ -13,9 +13,12 @@ def pesquisa_voo():
     paramento = paramentos.retorna_parametros()
 
     options = Options()
-    options.headless = True
+    options.headless = False
+
+    if paramento['navegador_handler'] == 'S':
+        options.headless = True
     driver = webdriver.Chrome(
-        # chrome_options=options
+        chrome_options=options
     )
 
     driver.maximize_window()
@@ -62,4 +65,8 @@ def pesquisa_voo():
     except Exception as exception:
         img = driver.get_screenshot_as_base64()
         sql.insere_log(exception, img)
+
     driver.quit()
+
+
+pesquisa_voo()

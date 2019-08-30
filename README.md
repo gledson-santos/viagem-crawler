@@ -4,3 +4,5 @@
 * Criar uma forma que ele execute na amazon
 * Criar uma tela e painel de consulta individual por pessoa
 * pegar a informação correta do chat id do telegram
+* Colocar a opção de rodar em background na tabela parametros
+* colocar a opção sobre a quantidade de semanas que precisam ser analisadas no banco

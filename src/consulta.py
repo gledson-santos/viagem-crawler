@@ -6,6 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from src.bd.script import Script
 from time import sleep
+from src.bd.parametros import Parametros
 
 class Consulta(object):
 
@@ -18,34 +19,50 @@ class Consulta(object):
         self.lista_voos = "//ul[@class='listDates']/li"
         self.botao_proxima_semana = "ControlGroupSelect2View_AvailabilityInputSelect2View_LinkButtonNextWeek1"
         self.sql = Script()
+        self.parametros = Parametros()
+        self.parametro = self.parametros.retorna_parametros()
 
     def informo_origem(self):
-        self.driver.find_element_by_xpath(self.campo_origem).click()
+        try:
+            self.driver.find_element_by_xpath(self.campo_origem).click()
+        except Exception as exception:
+            self.sql.insere_log(exception)
 
     def informo_destino(self):
-        self.driver.find_element_by_xpath(self.campo_destino).click()
+        try:
+            self.driver.find_element_by_xpath(self.campo_destino).click()
+        except Exception as exception:
+            self.sql.insere_log(exception)
 
     def pesquisa_voo(self, destino):
-        actions = ActionChains(self.driver)
-        actions.send_keys(destino)
-        actions.key_down(Keys.ENTER)
-        actions.key_up(Keys.ENTER)
-        actions.perform()
+        try:
+            actions = ActionChains(self.driver)
+            actions.send_keys(destino)
+            actions.key_down(Keys.ENTER)
+            actions.key_up(Keys.ENTER)
+            actions.perform()
+        except Exception as exception:
+            self.sql.insere_log(exception)
 
     def pesquisar(self):
-        self.driver.find_element_by_xpath(self.botao_ida).click()
-        self.driver.find_element_by_id(self.botao_compra).click()
+        try:
+            self.driver.find_element_by_xpath(self.botao_ida).click()
+            self.driver.find_element_by_id(self.botao_compra).click()
 
-        # wait = WebDriverWait(self.driver, 10)
-        # wait.until(EC.element_to_be_clickable((By.XPATH, self.botao_proxima_semana)))
-        #@TODO: Implementar o wait com base nesse id ""
+            # wait = WebDriverWait(self.driver, 10)
+            # wait.until(EC.element_to_be_clickable((By.XPATH, self.botao_proxima_semana)))
+            #@TODO: Implementar o wait com base nesse id ""
 
-    def pega_dados_voo(self, qnt_semana=4):
+        except Exception as exception:
+            self.sql.insere_log(exception)
+
+    def pega_dados_voo(self):
         try:
             datas = []
             pesquisar = 0
+            qnt_semana = self.parametro['qnt_semanas']
 
-            while pesquisar < qnt_semana:
+            while pesquisar < int(qnt_semana):
                 voos = self.driver.find_elements_by_xpath(self.lista_voos)
 
                 for voo in voos:

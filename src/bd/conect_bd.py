@@ -21,5 +21,9 @@ class ConectBd(object):
       print(e)
 
   def busca(self, sql):
-    self.mycursor.execute(sql)
-    return self.mycursor.fetchall()
+    try:
+      self.mycursor.execute(sql)
+      return self.mycursor.fetchall()
+
+    except Exception as exception:
+      self.sql.insere_log(exception)
