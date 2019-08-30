@@ -8,8 +8,9 @@ class Telegram(object):
     def __init__(self):
         parametros = Parametros()
         parametro = parametros.retorna_parametros()
-        self.request = requests.get("https://api.telegram.org/bot{}/getUpdates".format(parametro['bot_token_telegram'])).json()
-        self.chat_id = self.request['result'][0]['message']['chat']['id']
+        # self.request = requests.get("https://api.telegram.org/bot{}/getUpdates".format(parametro['bot_token_telegram'])).json()
+        # self.chat_id = self.request['result'][0]['message']['chat']['id']
+        self.chat_id = '645674752'
         self.bot = telebot.TeleBot(parametro['bot_token_telegram'])
 
     def enviar_msg(self, msg):

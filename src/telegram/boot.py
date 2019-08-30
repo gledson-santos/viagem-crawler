@@ -19,6 +19,7 @@ def consulta_menor_valor_voo(message):
     except Exception as e:
         return 'Não há valor válido para a consulta solicitada'
 
+
 @bot.message_handler(commands=['menorvalor'], func=consulta_menor_valor_voo)
 def menor_valor_passagens(message):
     bot.reply_to(message, consulta_menor_valor_voo(message))
@@ -38,11 +39,28 @@ def altera_valor_pesquisa(message):
 def echo_all(message):
     bot.reply_to(message, altera_valor_pesquisa(message))
 
+
+def consulta_log(message):
+    ultima_consulta = sql.consulta_data_ultima_verificacao()[0]['data_consulta']
+    quantidade_erros = sql.consulta_quantidade_erros()[0]['qnt']
+    msg = 'A última consulta aconteceu: {}'.format(ultima_consulta)
+    msg += '\n'
+    msg += 'A quantidade de erros encontrados até agora foram {} erros'.format(quantidade_erros)
+    return msg
+
+
+@bot.message_handler(commands=['log'], func=consulta_log)
+def echo_all(message):
+    bot.reply_to(message, consulta_log(message))
+
+
 def comandos(message):
     msg = 'Você pode utilizar os seguintes comandos para configurar suas buscas: \n\n'
     msg += '/menorvalor - Esse comando retorna o valor mais baixo da passagem que foi encontrado nas buscas\n\n'
     msg += '/altera "valor" - Esse comando altera o valor da passagem que você deseja ser notificado. \n Ex.: Utilizando /altera 200. Quando encontrarmos alguma passagem abaixo de R$ 200,00, iremos notificá-lo por mensagem\n\n'
+    msg += '/log - Esse comando retorna o log do sistema com as informações da última vez que o sistema rodou, e a quantidade de erros gerados até o momento.\n\n'
     return msg
+
 
 @bot.message_handler(commands=['help'], func=comandos)
 def echo_all(message):

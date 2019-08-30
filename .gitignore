@@ -3,3 +3,4 @@ src/__pycache__/
 src/bd/__pycache__/
 src/telegram/__pycache__/
 .idea/
+__pycache__/

@@ -40,7 +40,7 @@ class Consulta(object):
         # wait.until(EC.element_to_be_clickable((By.XPATH, self.botao_proxima_semana)))
         #@TODO: Implementar o wait com base nesse id ""
 
-    def pega_dados_voo(self, qnt_semana = 1):
+    def pega_dados_voo(self, qnt_semana=4):
         try:
             datas = []
             pesquisar = 0
@@ -54,13 +54,13 @@ class Consulta(object):
                     self.driver.find_element_by_id(self.botao_proxima_semana).click()
                 except Exception as exception:
                     self.driver.find_element_by_id(self.botao_proxima_semana).click()
-                    self.sql.insere_log(exception.msg)
+                    self.sql.insere_log(exception)
 
                 pesquisar += 1
 
             return datas
         except Exception as exception:
-            self.sql.insere_log(exception.msg)
+            self.sql.insere_log(exception)
 
 
 

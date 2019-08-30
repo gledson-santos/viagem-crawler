@@ -1,7 +1,8 @@
 import os
 from multiprocessing import Pool
 
-processos = ('src/telegram/boot.py', 'src/consulta_scraping.py')
+
+processos = ('export PYTHONPATH="${PYTHONPATH}:$PWD/src"', 'src/telegram/boot.py', 'src/consulta_scraping.py')
 
 
 def roda_processo(processo):

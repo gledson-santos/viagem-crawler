@@ -47,7 +47,7 @@ def pesquisa_voo():
         except Exception as exception:
             qnt_erros += 1
             img = driver.get_screenshot_as_base64()
-            sql.insere_log(exception.msg, img)
+            sql.insere_log(exception, img)
 
         if qnt_erros > 3:
             break
@@ -62,5 +62,4 @@ def pesquisa_voo():
     except Exception as exception:
         img = driver.get_screenshot_as_base64()
         sql.insere_log(exception, img)
-
     driver.quit()

@@ -11,7 +11,7 @@ class Script(object):
         sql = 'insert into voos (origem, destino, dia_semana, data, valor, data_consulta) values ("{}", "{}", "{}", "{}", {}, "{}")'.format(dados_trecho['origem'], dados_trecho['destino'], dados_voo['dia_semana'], dados_voo['data'], dados_voo['valor'], dados_trecho['data_hora'])
         return self.conexao.executa(sql)
 
-    def insere_log(self, msg, foto = None):
+    def insere_log(self, msg, foto=None):
         data = datetime.now().strftime("%d-%m-%y %h:%m")
         msg = msg.replace('"', '')
         sql = 'insert into log (mensagem_erro, imagem, data_consulta) values ("{}", "{}", "{}")'.format(msg, foto, data)
@@ -32,4 +32,12 @@ class Script(object):
     def consulta_menor_valor_passagem(self):
         data = datetime.now().strftime("%d-%m-%y")
         sql = 'SELECT MIN(valor) AS valor FROM voos WHERE data_consulta >= {}'.format(data)
+        return self.conexao.busca(sql)
+
+    def consulta_data_ultima_verificacao(self):
+        sql = 'SELECT data_consulta FROM voos GROUP BY data_consulta ORDER BY 1 DESC LIMIT 1;'
+        return self.conexao.busca(sql)
+
+    def consulta_quantidade_erros(self):
+        sql = 'SELECT COUNT(*) AS qnt FROM log;'
         return self.conexao.busca(sql)
