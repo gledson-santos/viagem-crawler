@@ -26,4 +26,4 @@ class ConectBd(object):
       return self.mycursor.fetchall()
 
     except Exception as exception:
-      self.sql.insere_log(exception)
+      print(exception)

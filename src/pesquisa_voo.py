@@ -15,8 +15,9 @@ def pesquisa_voo():
     options = Options()
     options.headless = False
 
-    if paramento['navegador_handler'] == 'S':
+    if int(paramento['navegador_handler']):
         options.headless = True
+
     driver = webdriver.Chrome(
         chrome_options=options
     )
@@ -67,6 +68,3 @@ def pesquisa_voo():
         sql.insere_log(exception, img)
 
     driver.quit()
-
-
-pesquisa_voo()

@@ -6,7 +6,6 @@ from src.bd.script import Script
 from src.bd.parametros import Parametros
 
 try:
-    sql = Script()
     parametros = Parametros()
     parametro = parametros.retorna_parametros()
     bot = telebot.TeleBot(parametro['bot_token_telegram'])
@@ -14,6 +13,7 @@ try:
 
     def consulta_menor_valor_voo(message):
         try:
+            sql = Script()
             resultado = sql.consulta_menor_valor_passagem()
             valor = round(resultado[0]['valor'], 2)
             return 'O menor valor encontrado é de R$ {}'.format(valor)
@@ -29,6 +29,7 @@ try:
     def altera_valor_pesquisa(message):
         try:
             valor = int(message.text.replace('/altera', ''))
+            sql = Script()
             sql.atualiza_valor_voos(valor)
             return 'Valor da busca pelo preço das passagens foi alterado para R$ {}'.format(valor)
 
@@ -42,6 +43,7 @@ try:
 
 
     def consulta_log(message):
+        sql = Script()
         ultima_consulta = sql.consulta_data_ultima_verificacao()[0]['data_consulta']
         quantidade_erros = sql.consulta_quantidade_erros()[0]['qnt']
         msg = 'A última consulta aconteceu: {}'.format(ultima_consulta)
@@ -55,11 +57,31 @@ try:
         bot.reply_to(message, consulta_log(message))
 
 
+    def consulta_parametros(message):
+        sql = Script()
+        paramentros = sql.consulta_paramentros()
+        for valores in paramentros:
+            parametro[valores['tipo_parametro']] = valores['valor']
+
+        msg = 'Os seguintes parametros estão sendo utilizados:\n\n'
+        msg += 'O site consultado é: {}\n'.format(parametro['site'])
+        msg += 'O valor da passagem para pesquisa é: {}\n'.format(parametro['valor_voo'])
+        msg += 'A quantidade de semanas que estamos analisando é: {}\n'.format(parametro['qnt_semanas'])
+        msg += 'O navegar está no modo: {}\n'.format('Rederizado' if parametro['qnt_semanas'] == '1' else 'Não Renderizado')
+        return msg
+
+
+    @bot.message_handler(commands=['parametros'], func=consulta_parametros)
+    def echo_all(message):
+        bot.reply_to(message, consulta_parametros(message))
+
+
     def comandos(message):
         msg = 'Você pode utilizar os seguintes comandos para configurar suas buscas: \n\n'
         msg += '/menorvalor - Esse comando retorna o valor mais baixo da passagem que foi encontrado nas buscas\n\n'
         msg += '/altera "valor" - Esse comando altera o valor da passagem que você deseja ser notificado. \n Ex.: Utilizando /altera 200. Quando encontrarmos alguma passagem abaixo de R$ 200,00, iremos notificá-lo por mensagem\n\n'
         msg += '/log - Esse comando retorna o log do sistema com as informações da última vez que o sistema rodou, e a quantidade de erros gerados até o momento.\n\n'
+        msg += '/parametros - Esse comando retorna os paramentros que estão sendo utilizandos nas consultas atuais\n\n'
         return msg
 
 
@@ -71,4 +93,5 @@ try:
     bot.polling()
 
 except Exception as exception:
+    sql = Script()
     sql.insere_log(exception)

@@ -12,17 +12,20 @@ class Script(object):
         return self.conexao.executa(sql)
 
     def insere_log(self, msg, foto=None):
-        data = datetime.now().strftime("%d-%m-%y %h:%m")
-        msg = msg.replace('"', '')
-        sql = 'insert into log (mensagem_erro, imagem, data_consulta) values ("{}", "{}", "{}")'.format(msg, foto, data)
-        return self.conexao.executa(sql)
+        try:
+            data = datetime.now().strftime("%d-%m-%Y %H:%M")
+            msg = str(msg).replace('"', '')
+            sql = 'insert into log (mensagem_erro, imagem, data_consulta) values ("{}", "{}", "{}")'.format(msg, foto, data)
+            return self.conexao.executa(sql)
+        except Exception as exception:
+            print(exception)
 
     def consulta_parametros(self):
         sql = 'select * from parametros'
         return self.conexao.busca(sql)
 
     def consulta_destinos(self):
-        sql = 'select * from destinos where status="ativo";'
+        sql = 'select * from destinos where status=1;'
         return self.conexao.busca(sql)
 
     def atualiza_valor_voos(self, valor):
@@ -35,9 +38,13 @@ class Script(object):
         return self.conexao.busca(sql)
 
     def consulta_data_ultima_verificacao(self):
-        sql = 'SELECT data_consulta FROM voos GROUP BY data_consulta ORDER BY 1 DESC LIMIT 1;'
+        sql = 'SELECT id, data_consulta FROM voos ORDER BY 1 DESC LIMIT 1;'
         return self.conexao.busca(sql)
 
     def consulta_quantidade_erros(self):
         sql = 'SELECT COUNT(*) AS qnt FROM log;'
+        return self.conexao.busca(sql)
+
+    def consulta_paramentros(self):
+        sql = 'SELECT * FROM parametros;'
         return self.conexao.busca(sql)

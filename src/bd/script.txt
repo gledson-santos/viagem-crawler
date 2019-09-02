@@ -4,17 +4,17 @@ CREATE TABLE destinos (
 id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 origem VARCHAR(30) NOT NULL,
 destino VARCHAR(30) NOT NULL,
-status VARCHAR(30) NOT NULL
+status INT(1) NOT NULL
 );
 
-INSERT INTO destinos (origem, destino, status) VALUES ('rio de janeiro - todos', 'florianopolis', 'Ativo');
-INSERT INTO destinos (origem, destino, status) VALUES ('florianopolis', 'rio de janeiro - todos', 'Ativo');
-INSERT INTO destinos (origem, destino, status) VALUES ('rio de janeiro - todos', 'navegantes', 'Inativo');
-INSERT INTO destinos (origem, destino, status) VALUES ('navegantes', 'rio de janeiro - todos', 'Inativo');
-INSERT INTO destinos (origem, destino, status) VALUES ('rio de janeiro - todos', 'joinvile', 'Inativo');
-INSERT INTO destinos (origem, destino, status) VALUES ('joinvile', 'rio de janeiro - todos', 'Inativo');
-INSERT INTO destinos (origem, destino, status) VALUES ('rio de janeiro - todos', 'curitiba', 'Inativo');
-INSERT INTO destinos (origem, destino, status) VALUES ('curitiba', 'rio de janeiro - todos', 'Inativo');
+INSERT INTO destinos (origem, destino, status) VALUES ('rio de janeiro - todos', 'florianopolis', 1);
+INSERT INTO destinos (origem, destino, status) VALUES ('florianopolis', 'rio de janeiro - todos', 1);
+INSERT INTO destinos (origem, destino, status) VALUES ('rio de janeiro - todos', 'navegantes', 0);
+INSERT INTO destinos (origem, destino, status) VALUES ('navegantes', 'rio de janeiro - todos', 0);
+INSERT INTO destinos (origem, destino, status) VALUES ('rio de janeiro - todos', 'joinvile', 0);
+INSERT INTO destinos (origem, destino, status) VALUES ('joinvile', 'rio de janeiro - todos', 0);
+INSERT INTO destinos (origem, destino, status) VALUES ('rio de janeiro - todos', 'curitiba', 0);
+INSERT INTO destinos (origem, destino, status) VALUES ('curitiba', 'rio de janeiro - todos', 0);
 
 CREATE TABLE parametros (
 id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -26,7 +26,7 @@ INSERT INTO parametros (tipo_parametro, valor) values ('site', 'https://voegol.c
 INSERT INTO parametros (tipo_parametro, valor) VALUES ('valor_voo', 350);
 INSERT INTO parametros (tipo_parametro, valor) VALUES ('bot_token_telegram', '760554632:AAG35rNhwkxxVxF57AMdOpjqexJV75abejg');
 INSERT INTO parametros (tipo_parametro, valor) VALUES ('qnt_semanas', 4);
-INSERT INTO parametros (tipo_parametro, valor) VALUES ('navegador_handler', 'S');
+INSERT INTO parametros (tipo_parametro, valor) VALUES ('navegador_handler', 0);
 
 
 CREATE TABLE voos (
