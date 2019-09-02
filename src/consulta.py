@@ -26,13 +26,15 @@ class Consulta(object):
         try:
             self.driver.find_element_by_xpath(self.campo_origem).click()
         except Exception as exception:
-            self.sql.insere_log(exception)
+            img = self.driver.get_screenshot_as_base64()
+            self.sql.insere_log(exception, img)
 
     def informo_destino(self):
         try:
             self.driver.find_element_by_xpath(self.campo_destino).click()
         except Exception as exception:
-            self.sql.insere_log(exception)
+            img = self.driver.get_screenshot_as_base64()
+            self.sql.insere_log(exception, img)
 
     def pesquisa_voo(self, destino):
         try:
@@ -42,7 +44,8 @@ class Consulta(object):
             actions.key_up(Keys.ENTER)
             actions.perform()
         except Exception as exception:
-            self.sql.insere_log(exception)
+            img = self.driver.get_screenshot_as_base64()
+            self.sql.insere_log(exception, img)
 
     def pesquisar(self):
         try:
@@ -54,7 +57,8 @@ class Consulta(object):
             #@TODO: Implementar o wait com base nesse id ""
 
         except Exception as exception:
-            self.sql.insere_log(exception)
+            img = self.driver.get_screenshot_as_base64()
+            self.sql.insere_log(exception, img)
 
     def pega_dados_voo(self):
         try:
@@ -71,13 +75,15 @@ class Consulta(object):
                     self.driver.find_element_by_id(self.botao_proxima_semana).click()
                 except Exception as exception:
                     self.driver.find_element_by_id(self.botao_proxima_semana).click()
-                    self.sql.insere_log(exception)
+                    img = self.driver.get_screenshot_as_base64()
+                    self.sql.insere_log(exception, img)
 
                 pesquisar += 1
 
             return datas
         except Exception as exception:
-            self.sql.insere_log(exception)
+            img = self.driver.get_screenshot_as_base64()
+            self.sql.insere_log(exception, img)
 
 
 
