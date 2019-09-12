@@ -10,7 +10,6 @@ try:
     parametro = parametros.retorna_parametros()
     bot = telebot.TeleBot(parametro['bot_token_telegram'])
 
-
     def consulta_menor_valor_voo(message):
         try:
             sql = Script()
@@ -67,7 +66,7 @@ try:
         msg += 'O site consultado é: {}\n'.format(parametro['site'])
         msg += 'O valor da passagem para pesquisa é: {}\n'.format(parametro['valor_voo'])
         msg += 'A quantidade de semanas que estamos analisando é: {}\n'.format(parametro['qnt_semanas'])
-        msg += 'O navegar está no modo: {}\n'.format('Rederizado' if parametro['qnt_semanas'] == '1' else 'Não Renderizado')
+        msg += 'O navegar está no modo: {}\n'.format('Não Renderizado' if parametro['qnt_semanas'] == '1' else 'Renderizado')
         return msg
 
 

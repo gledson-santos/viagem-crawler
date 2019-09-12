@@ -1,12 +1,8 @@
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException
 from src.bd.script import Script
-from time import sleep
 from src.bd.parametros import Parametros
+
 
 class Consulta(object):
 
@@ -14,10 +10,10 @@ class Consulta(object):
         self.driver = driver
         self.campo_origem = '//div[@class="purchase-box-header-division division-input division-input-origin"]/div/a/div'
         self.campo_destino = '//div[@class="input-destiny division-input-destiny-city active"]/div/a/span'
-        self.botao_ida = '//fieldset/div[2]/label[@for="goOrBack"]'
         self.botao_compra = 'btn-box-buy'
-        self.lista_voos = "//ul[@class='listDates']/li"
+        self.lista_voos = '//div[@class="sliderDates sliderGoing"]/ul/li'
         self.botao_proxima_semana = "ControlGroupSelect2View_AvailabilityInputSelect2View_LinkButtonNextWeek1"
+        self.botao_modal_aviso_data = '//div[@class="carouselDateChangePopup"]/p[@class="btnFecharPopup btCls btClsNew3"]/a[contains(text(), "Fechar")]'
         self.sql = Script()
         self.parametros = Parametros()
         self.parametro = self.parametros.retorna_parametros()
@@ -49,13 +45,7 @@ class Consulta(object):
 
     def pesquisar(self):
         try:
-            self.driver.find_element_by_xpath(self.botao_ida).click()
             self.driver.find_element_by_id(self.botao_compra).click()
-
-            # wait = WebDriverWait(self.driver, 10)
-            # wait.until(EC.element_to_be_clickable((By.XPATH, self.botao_proxima_semana)))
-            #@TODO: Implementar o wait com base nesse id ""
-
         except Exception as exception:
             img = self.driver.get_screenshot_as_base64()
             self.sql.insere_log(exception, img)
@@ -74,9 +64,12 @@ class Consulta(object):
                 try:
                     self.driver.find_element_by_id(self.botao_proxima_semana).click()
                 except Exception as exception:
-                    self.driver.find_element_by_id(self.botao_proxima_semana).click()
-                    img = self.driver.get_screenshot_as_base64()
-                    self.sql.insere_log(exception, img)
+                    try:
+                        self.driver.find_element_by_xpath(self.botao_modal_aviso_data).click()
+                        self.driver.find_element_by_id(self.botao_proxima_semana).click()
+                    except Exception as exception:
+                        img = self.driver.get_screenshot_as_base64()
+                        self.sql.insere_log(exception, img)
 
                 pesquisar += 1
 
@@ -84,6 +77,3 @@ class Consulta(object):
         except Exception as exception:
             img = self.driver.get_screenshot_as_base64()
             self.sql.insere_log(exception, img)
-
-
-

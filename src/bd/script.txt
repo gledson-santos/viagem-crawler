@@ -27,6 +27,7 @@ INSERT INTO parametros (tipo_parametro, valor) VALUES ('valor_voo', 350);
 INSERT INTO parametros (tipo_parametro, valor) VALUES ('bot_token_telegram', '760554632:AAG35rNhwkxxVxF57AMdOpjqexJV75abejg');
 INSERT INTO parametros (tipo_parametro, valor) VALUES ('qnt_semanas', 4);
 INSERT INTO parametros (tipo_parametro, valor) VALUES ('navegador_handler', 0);
+INSERT INTO parametros (tipo_parametro, valor) VALUES ('chat_id_telegram', 645674752);
 
 
 CREATE TABLE voos (
