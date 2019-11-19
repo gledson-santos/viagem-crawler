@@ -50,6 +50,18 @@ class Consulta(object):
             img = self.driver.get_screenshot_as_base64()
             self.sql.insere_log(exception, img)
 
+            self.driver.find_element_by_xpath('//div[@class="tooltip_blackfriday-menor"]/div').click()
+            self.driver.find_element_by_id(self.botao_compra).click()
+
+            import time
+            time.sleep(2)
+            if self.driver.find_element_by_xpath('//a[@class="btn btn-default btn-voos-iguais"]'):
+                self.driver.find_element_by_xpath('//a[@class="btn btn-default btn-voos-iguais"]').click()
+
+        except Exception as exception:
+            img = self.driver.get_screenshot_as_base64()
+            self.sql.insere_log(exception, img)
+
     def pega_dados_voo(self):
         try:
             datas = []

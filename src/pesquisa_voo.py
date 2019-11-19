@@ -8,6 +8,7 @@ from src.telegram.comunicacao import Comunicacao
 
 
 def pesquisa_voo():
+
     sql = Script()
     paramentos = Parametros()
     paramento = paramentos.retorna_parametros()
@@ -51,3 +52,6 @@ def pesquisa_voo():
             sql.insere_log(exception, img)
 
     driver.quit()
+
+
+pesquisa_voo()

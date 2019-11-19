@@ -7,7 +7,6 @@ class Telegram(object):
     def __init__(self):
         self.parametros = Parametros()
         self.parametro = self.parametros.retorna_parametros()
-        self.chat_id = '645674752'
         self.bot = telebot.TeleBot(self.parametro['bot_token_telegram'])
 
     def enviar_msg(self, msg):

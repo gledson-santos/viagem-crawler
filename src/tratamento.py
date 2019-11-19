@@ -16,6 +16,9 @@ class TratamentoVoos(object):
             }
 
             for data in voos:
+                if not data:
+                    continue
+
                 if 'Indisponível' in data:
                     continue
 
