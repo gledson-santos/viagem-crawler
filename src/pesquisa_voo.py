@@ -52,6 +52,3 @@ def pesquisa_voo():
             sql.insere_log(exception, img)
 
     driver.quit()
-
-
-pesquisa_voo()
