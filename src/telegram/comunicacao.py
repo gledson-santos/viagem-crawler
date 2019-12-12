@@ -1,5 +1,6 @@
 from src.telegram.integracao import Telegram
 from src.bd.script import Script
+from src.graylog import *
 
 
 class Comunicacao(object):
@@ -24,4 +25,5 @@ class Comunicacao(object):
                 self.telegram.enviar_msg(msg)
 
         except Exception as exception:
+            logger.exception(exception)
             self.sql.insere_log(exception)

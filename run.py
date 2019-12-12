@@ -9,5 +9,6 @@ def roda_processo(processo):
     os.system('python {}'.format(processo))
 
 
-pool = Pool(processes=2)
-pool.map(roda_processo, processos)
+if __name__ == '__main__':
+    pool = Pool(processes=2)
+    pool.map(roda_processo, processos)

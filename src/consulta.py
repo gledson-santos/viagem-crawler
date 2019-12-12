@@ -2,7 +2,10 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from src.bd.script import Script
 from src.bd.parametros import Parametros
-
+from src.graylog import logger
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 class Consulta(object):
 
@@ -20,17 +23,18 @@ class Consulta(object):
 
     def informo_origem(self):
         try:
+            WebDriverWait(self.driver, 15).until(EC.text_to_be_present_in_element((By.XPATH, '//*[@id="purchase-box"]/form[2]/div[1]/div[1]/a/h2'), 'Comprar passagem'))
             self.driver.find_element_by_xpath(self.campo_origem).click()
         except Exception as exception:
             img = self.driver.get_screenshot_as_base64()
-            self.sql.insere_log(exception, img)
+            logger.exception(img)
 
     def informo_destino(self):
         try:
             self.driver.find_element_by_xpath(self.campo_destino).click()
         except Exception as exception:
             img = self.driver.get_screenshot_as_base64()
-            self.sql.insere_log(exception, img)
+            logger.exception(img)
 
     def pesquisa_voo(self, destino):
         try:
@@ -41,14 +45,17 @@ class Consulta(object):
             actions.perform()
         except Exception as exception:
             img = self.driver.get_screenshot_as_base64()
-            self.sql.insere_log(exception, img)
+            logger.exception(img)
 
     def pesquisar(self):
         try:
             self.driver.find_element_by_id(self.botao_compra).click()
+            WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.XPATH, '//a[@class="btn btn-default btn-voos-iguais"]')))
+            self.driver.find_element_by_xpath('//a[@class="btn btn-default btn-voos-iguais"]').click()
+
         except Exception as exception:
             img = self.driver.get_screenshot_as_base64()
-            self.sql.insere_log(exception, img)
+            logger.exception(img)
 
             self.driver.find_element_by_xpath('//div[@class="tooltip_blackfriday-menor"]/div').click()
             self.driver.find_element_by_id(self.botao_compra).click()
@@ -60,7 +67,7 @@ class Consulta(object):
 
         except Exception as exception:
             img = self.driver.get_screenshot_as_base64()
-            self.sql.insere_log(exception, img)
+            logger.exception(img)
 
     def pega_dados_voo(self):
         try:
@@ -81,11 +88,11 @@ class Consulta(object):
                         self.driver.find_element_by_id(self.botao_proxima_semana).click()
                     except Exception as exception:
                         img = self.driver.get_screenshot_as_base64()
-                        self.sql.insere_log(exception, img)
+                        logger.exception(img)
 
                 pesquisar += 1
 
             return datas
         except Exception as exception:
             img = self.driver.get_screenshot_as_base64()
-            self.sql.insere_log(exception, img)
+            logger.exception(img)

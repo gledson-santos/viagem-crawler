@@ -1,5 +1,6 @@
 from src.bd.conect_bd import ConectBd
 from datetime import datetime
+from src.graylog import *
 
 
 class Script(object):
@@ -18,6 +19,7 @@ class Script(object):
             sql = 'insert into log (mensagem_erro, imagem, data_consulta) values ("{}", "{}", "{}")'.format(msg, foto, data)
             return self.conexao.executa(sql)
         except Exception as exception:
+            logger.exception(exception)
             print(exception)
 
     def consulta_parametros(self):

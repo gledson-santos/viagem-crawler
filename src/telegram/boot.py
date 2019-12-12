@@ -4,6 +4,7 @@
 import telebot
 from src.bd.script import Script
 from src.bd.parametros import Parametros
+from src.graylog import *
 
 try:
     parametros = Parametros()
@@ -16,7 +17,8 @@ try:
             resultado = sql.consulta_menor_valor_passagem()
             valor = round(resultado[0]['valor'], 2)
             return 'O menor valor encontrado é de R$ {}'.format(valor)
-        except Exception as e:
+        except Exception as exception:
+            logger.exception(exception)
             return 'Não há valor válido para a consulta solicitada'
 
 
@@ -93,4 +95,5 @@ try:
 
 except Exception as exception:
     sql = Script()
+    logger.exception(exception)
     sql.insere_log(exception)

@@ -1,5 +1,6 @@
 from datetime import datetime
 from src.bd.script import Script
+from src.graylog import *
 
 sql = Script()
 
@@ -35,5 +36,6 @@ class TratamentoVoos(object):
             return lista_voos
 
         except Exception as exception:
+            logger.exception(exception)
             sql.insere_log(exception)
             return

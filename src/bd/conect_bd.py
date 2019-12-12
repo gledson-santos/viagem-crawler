@@ -1,4 +1,5 @@
 import mysql.connector
+from src.graylog import *
 
 
 class ConectBd(object):
@@ -17,12 +18,14 @@ class ConectBd(object):
     try:
       self.mycursor.execute(sql)
       return self.conect.commit()
-    except Exception as e:
-      print(e)
+    except Exception as exception:
+      logger.exception(exception)
+      print(exception)
 
   def busca(self, sql):
     try:
       self.mycursor.execute(sql)
       return self.mycursor.fetchall()
     except Exception as exception:
+      insere_log(exception)
       print(exception)

@@ -1,5 +1,5 @@
 from src.bd.script import Script
-
+from src.graylog import *
 
 class Parametros(object):
 
@@ -17,5 +17,6 @@ class Parametros(object):
             return resultado
 
         except Exception as exception:
+            logger.exception(exception)
             self.sql.insere_log(exception)
             return
