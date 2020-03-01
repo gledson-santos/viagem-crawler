@@ -18,5 +18,4 @@ class Parametros(object):
 
         except Exception as exception:
             logger.exception(exception)
-            self.sql.insere_log(exception)
             return

@@ -50,13 +50,17 @@ class Consulta(object):
     def pesquisar(self):
         try:
             self.driver.find_element_by_id(self.botao_compra).click()
-            WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.XPATH, '//a[@class="btn btn-default btn-voos-iguais"]')))
-            self.driver.find_element_by_xpath('//a[@class="btn btn-default btn-voos-iguais"]').click()
-
+            self.verifica_propaganda()
         except Exception as exception:
             img = self.driver.get_screenshot_as_base64()
             logger.exception(img)
 
+    def verifica_propaganda(self):
+        try:
+            WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.XPATH, '//a[@class="btn btn-default btn-voos-iguais"]')))
+            self.driver.find_element_by_xpath('//a[@class="btn btn-default btn-voos-iguais"]').click()
+
+        except Exception as exception:
             self.driver.find_element_by_xpath('//div[@class="tooltip_blackfriday-menor"]/div').click()
             self.driver.find_element_by_id(self.botao_compra).click()
 
@@ -68,6 +72,7 @@ class Consulta(object):
         except Exception as exception:
             img = self.driver.get_screenshot_as_base64()
             logger.exception(img)
+
 
     def pega_dados_voo(self):
         try:
@@ -93,6 +98,7 @@ class Consulta(object):
                 pesquisar += 1
 
             return datas
+
         except Exception as exception:
             img = self.driver.get_screenshot_as_base64()
             logger.exception(img)

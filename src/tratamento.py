@@ -37,5 +37,4 @@ class TratamentoVoos(object):
 
         except Exception as exception:
             logger.exception(exception)
-            sql.insere_log(exception)
             return
