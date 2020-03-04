@@ -1,4 +1,5 @@
 selenium
 mysql-connector-python
 schedule
-python-telegram-bot
+graypy
+pyTelegramBotAPI

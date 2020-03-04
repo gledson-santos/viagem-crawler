@@ -5,11 +5,11 @@ class ConectBd(object):
 
   def __init__(self):
     self.conect = mysql.connector.connect(
-      host="localhost",
+      host="database-1.ctnwzbi1oqcr.us-east-2.rds.amazonaws.com",
       port="3306",
       database='db_gol',
-      user="root",
-      passwd="root"
+      user="admin",
+      passwd="sentapua"
     )
     self.mycursor = self.conect.cursor(dictionary=True)
 

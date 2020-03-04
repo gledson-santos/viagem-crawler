@@ -5,6 +5,7 @@ from src.consulta import Consulta
 from src.tratamento import TratamentoVoos
 from src.bd.script import Script
 from src.telegram.comunicacao import Comunicacao
+from src.graylog import *
 
 
 def pesquisa_voo():
@@ -47,7 +48,14 @@ def pesquisa_voo():
                 sql.insere_voo(dados_voos, voo)
 
         except Exception as exception:
-            img = driver.get_screenshot_as_base64()
-            sql.insere_log(exception, img)
+            try:
+                img = None
+                img = driver.get_screenshot_as_base64()
+            except Exception:
+                pass
+            logger.exception(exception, img)
+            # sql.insere_log(exception, img)
 
     driver.quit()
+
+pesquisa_voo()
